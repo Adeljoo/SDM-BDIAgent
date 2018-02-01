@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	<H3>Datatrading application based on service interface.</H3>
+
+	Can be used to start the Datatrading example with different
+	initial configurations of Processor and Controller agents.
+-->
+<applicationtype xmlns="http://www.activecomponents.org/jadex-application"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.activecomponents.org/jadex-application 
+	                    http://www.activecomponents.org/jadex-application-${jadex_build_version}.xsd"
+	name="DataTrading" package="SDMCom"
+	autoshutdown="true">
+	
+	<imports>
+  		<import>common.*</import>
+		<import>java.util.*</import>
+		<import>jadex.bridge.service.types.clock.IClockService</import>
+		<import>jadex.bridge.service.search.*</import>
+		<import>jadex.commons.future.*</import>
+		<import>jadex.bridge.service.*</import>
+	</imports>
+	
+	<componenttypes>
+		<componenttype name="Processor" filename="SDM/Processor/ProcessorBDI.class"/>
+		<componenttype name="Controller" filename="SDM/Controller/ControllerBDI.class"/>
+	</componenttypes>
+	
+	<configurations>
+		<configuration name="One Processor and one Controller">
+			<components>
+				<component type="Processor">
+					<arguments>
+						<argument name="initial_orders">
+							new Order[]
+							{
+								new Order("Data engin1", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 1, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Data engin2", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 2, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Customer names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted",3, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Pilot names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 4, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)))
+							}
+						</argument>
+					</arguments>
+				</component>
+				<component type="Controller">
+					<arguments>
+						<argument name="initial_orders">
+							new Order[]
+							{
+								new Order("Data engin1", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 1, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Data engin2", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 2, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Customer names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted",3, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Pilot names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 4, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)))
+							}
+						</argument>
+					</arguments>
+				</component>
+			</components>
+		</configuration>
+		<configuration name="One Processor and one Controller (one order)">
+			<components>
+				<component type="Processor" >
+					<arguments>
+						<argument name="initial_orders">
+							new Order[]
+							{
+							new Order("Data engin1", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 1, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)))
+								
+							}
+						</argument>
+					</arguments>
+				</component>
+				<component type="Controller">
+					<arguments>
+						<argument name="initial_orders">
+							new Order[]
+							{
+								new Order("Data engin1", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 3, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)))
+							}
+						</argument>
+					</arguments>
+				</component>
+			</components>
+		</configuration>
+	    <configuration name="Two Processors and one Controller">
+			<components>
+				<component type="Processor" number="3">
+					<arguments>
+						<argument name="initial_orders">
+							new Order[]
+							{
+								new Order("Data engin1", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 1, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Data engin2", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 2, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Customer names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 3, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Pilot names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 4, true, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)))
+							}
+						</argument>
+					</arguments>
+				</component>
+				<component type="Controller">
+					<arguments>
+						<argument name="initial_orders">
+							new Order[]
+							{
+								new Order("Data engin2", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 1, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Data engin1", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "Permitted", 2, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Customer names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 3, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM))),
+								new Order("Pilot names", new Date(((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)).getTime()+60000), "notPermitted", 4, false, ((IClockService)SServiceProvider.getLocalService($component.getComponentIdentifier(), IClockService.class, RequiredServiceInfo.SCOPE_PLATFORM)))
+							}
+						</argument>
+					</arguments>
+				</component>
+			</components>
+		</configuration>
+	</configurations>
+
+</applicationtype>
